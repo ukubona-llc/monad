@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukubona Manifesto - Pentad Glyphs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: radial-gradient(circle at 20% 50%, #1a1a2e 0%, #16213e 25%, #0f0f1e 50%, #000000 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;    
+        }
+
+        /* Cosmic backdrop with animated stars */
+        .cosmos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+            background: linear-gradient(45deg, #ffffff, #b8860b, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 4rem;
+            opacity: 0.8;
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .pentad {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 2rem 0;
+        }
+
+        .glyph {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            font-size: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform-origin: center;
+            z-index: 3;
+        }
+
+        .glyph:hover {
+            transform: scale(1.8);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+            z-index: 10;
+        }
+
+        .glyph.active {
+            transform: scale(1.2);
+            box-shadow: 0 0 40px rgba(184, 134, 11, 0.6);
+            background: radial-gradient(circle, rgba(184, 134, 11, 0.3) 0%, rgba(184, 134, 11, 0.1) 100%);
+        }
+
+        /* Pentagon positioning */
+        .glyph:nth-child(1) { /* Sea - Top */
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .glyph:nth-child(2) { /* Love - Top Right */
+            top: 30%;
+            right: 0;
+        }
+
+        .glyph:nth-child(3) { /* Recursion - Bottom Right */
+            bottom: 20%;
+            right: 15%;
+        }
+
+        .glyph:nth-child(4) { /* Theater - Bottom Left */
+            bottom: 20%;
+            left: 15%;
+        }
+
+        .glyph:nth-child(5) { /* Broadcast - Top Left */
+            top: 30%;
+            left: 0;
+        }
+
+        .info-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .info-content {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .info-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: linear-gradient(45deg, #ffffff, #b8860b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-content p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .info-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .info-content th,
+        .info-content td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .info-content th {
+            background: rgba(184, 134, 11, 0.2);
+            font-weight: bold;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            opacity: 0.6;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .ukubona-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            opacity: 0.7;
+            text-align: center;
+            z-index: 1;
+            background: linear-gradient(45deg, #ffffff, #b8860b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .pentad {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .glyph {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .info-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmos" id="cosmos"></div>
+    
+    <div class="container">
+        <h1 class="title">UKUBONA</h1>
+        <p class="subtitle">"To see is not merely to look — it is to witness, to reckon, to recurse."</p>
+        
+        <div class="pentad">
+            <div class="ukubona-center">UKUBONA<br><small>The Monad</small></div>
+            
+            <div class="glyph" data-info="sea">🌊</div>
+            <div class="glyph" data-info="love">❤️</div>
+            <div class="glyph" data-info="recursion">🔁</div>
+            <div class="glyph" data-info="theater">🎭</div>
+            <div class="glyph" data-info="broadcast">🛰️</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Ukubona LLC • Centreville, Virginia • Born March 26, 2025</p>
+    </div>
+
+    <div class="info-panel" id="info-panel">
+        <div class="info-content">
+            <button class="close-btn" onclick="closeInfo()">×</button>
+            <div id="info-text"></div>
+        </div>
+    </div>
+
+    <script>
+        // Generate stars
+        function createStars() {
+            const cosmos = document.getElementById('cosmos');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                cosmos.appendChild(star);
+            }
+        }
+
+        // Info content for each glyph
+        const infoData = {
+            sea: {
+                title: "🌊 Sea - Movement & Flow",
+                content: `
+                    <p>Movement, flow, dissolution of ego. The Sea represents the fluid nature of existence, where boundaries dissolve and identity flows like water finding its level.</p>
+                    
+                    <p>In the Ukubona framework, Sea is the first glyph of the pentad, representing the primordial state of becoming. It embodies the principle of continuous movement and the dissolution of rigid structures.</p>
+                    
+                    <table>
+                        <tr><th>Aspect</th><th>Description</th></tr>
+                        <tr><td>Element</td><td>Water, Flow, Dissolution</td></tr>
+                        <tr><td>Temporal Scale</td><td>Continuous, Rhythmic</td></tr>
+                        <tr><td>Agency</td><td>Letting go, Allowing</td></tr>
+                        <tr><td>Recursion</td><td>Tidal patterns, Cyclic return</td></tr>
+                        <tr><td>Practice</td><td>Meditation, Flow states</td></tr>
+                    </table>
+                    
+                    <p>The Sea teaches us that identity is not fixed but flows, that boundaries are permeable, and that the deepest wisdom comes from allowing ourselves to be moved by forces greater than our individual will.</p>
+                `
+            },
+            love: {
+                title: "❤️ Love - Interpersonal Recursion",
+                content: `
+                    <p>Interpersonal recursion, care networks. Love represents the recursive loops of care that bind individuals into communities and meaning-making systems.</p>
+                    
+                    <p>Love in the Ukubona system is not merely emotion but the fundamental recursive process through which consciousness recognizes itself in others. It is Ubuntu made manifest: "I am because we are."</p>
+                    
+                    <table>
+                        <tr><th>Aspect</th><th>Description</th></tr>
+                        <tr><td>Element</td><td>Connection, Recognition, Care</td></tr>
+                        <tr><td>Temporal Scale</td><td>Relational, Synchronous</td></tr>
+                        <tr><td>Agency</td><td>Mutual recognition, Vulnerability</td></tr>
+                        <tr><td>Recursion</td><td>Mirroring, Empathy loops</td></tr>
+                        <tr><td>Practice</td><td>Deep listening, Presence</td></tr>
+                    </table>
+                    
+                    <p>Through Love, we learn that consciousness is not isolated but participatory. Each act of recognition creates a recursive loop where self and other are simultaneously distinct and unified.</p>
+                `
+            },
+            recursion: {
+                title: "🔁 Recursion - Fractal Loops",
+                content: `
+                    <p>Fractal loops, probabilistic play. Recursion is the engine of emergence, the process by which simple rules generate infinite complexity.</p>
+                    
+                    <p>In Ukubona, Recursion is both method and metaphor. It represents the fundamental pattern of consciousness turning back on itself, creating nested loops of self-reference and meaning-making.</p>
+                    
+                    <table>
+                        <tr><th>Aspect</th><th>Description</th></tr>
+                        <tr><td>Element</td><td>Loops, Feedback, Emergence</td></tr>
+                        <tr><td>Temporal Scale</td><td>Nested, Multi-scale</td></tr>
+                        <tr><td>Agency</td><td>Pattern recognition, Iteration</td></tr>
+                        <tr><td>Recursion</td><td>Self-similar structures</td></tr>
+                        <tr><td>Practice</td><td>Reflection, Iteration, Debugging</td></tr>
+                    </table>
+                    
+                    <p>Recursion teaches us that growth happens through repeated application of simple principles. Each iteration carries forward the patterns of the previous while allowing for mutation and emergence.</p>
+                `
+            },
+            theater: {
+                title: "🎭 Theater - Masks & Agency",
+                content: `
+                    <p>UX, agency, narrative illusion. Theater represents the performative nature of identity and the conscious construction of meaning through storytelling.</p>
+                    
+                    <p>Theater in Ukubona acknowledges that all identity is performed, all interface is designed, and all agency is partially illusory. Yet within this acknowledgment lies the power to consciously craft better performances.</p>
+                    
+                    <table>
+                        <tr><th>Aspect</th><th>Description</th></tr>
+                        <tr><td>Element</td><td>Performance, Masks, Stories</td></tr>
+                        <tr><td>Temporal Scale</td><td>Dramatic, Episodic</td></tr>
+                        <tr><td>Agency</td><td>Conscious performance, Role-playing</td></tr>
+                        <tr><td>Recursion</td><td>Feedback loops between actor and audience</td></tr>
+                        <tr><td>Practice</td><td>Storytelling, UX design, Persona work</td></tr>
+                    </table>
+                    
+                    <p>Through Theater, we learn that consciousness is not discovered but performed, that identity is not fixed but crafted, and that the quality of our performances determines the quality of our realities.</p>
+                `
+            },
+            broadcast: {
+                title: "🛰️ Broadcast - Signal to the World",
+                content: `
+                    <p>Signal to the world, publishing, transmission. Broadcast represents the act of sending signal into the collective consciousness, contributing to the commons of meaning.</p>
+                    
+                    <p>In Ukubona, Broadcast is the commitment to "publish incomplete" — to share work in progress, to contribute to collective intelligence, and to trust in the recursive nature of collective meaning-making.</p>
+                    
+                    <table>
+                        <tr><th>Aspect</th><th>Description</th></tr>
+                        <tr><td>Element</td><td>Signal, Transmission, Publishing</td></tr>
+                        <tr><td>Temporal Scale</td><td>Distributed, Asynchronous</td></tr>
+                        <tr><td>Agency</td><td>Sharing, Contributing, Teaching</td></tr>
+                        <tr><td>Recursion</td><td>Feedback from audience, Viral spread</td></tr>
+                        <tr><td>Practice</td><td>Writing, Teaching, Open source</td></tr>
+                    </table>
+                    
+                    <p>Broadcast teaches us that individual consciousness gains meaning through contribution to collective consciousness. Every act of sharing creates the possibility for recursive amplification and collective intelligence.</p>
+                `
+            }
+        };
+
+        function showInfo(type) {
+            const panel = document.getElementById('info-panel');
+            const infoText = document.getElementById('info-text');
+            const data = infoData[type];
+            
+            infoText.innerHTML = `
+                <h2>${data.title}</h2>
+                ${data.content}
+            `;
+            
+            panel.style.display = 'flex';
+            
+            // Add active class to clicked glyph
+            document.querySelectorAll('.glyph').forEach(g => g.classList.remove('active'));
+            document.querySelector(`[data-info="${type}"]`).classList.add('active');
+        }
+
+        function closeInfo() {
+            document.getElementById('info-panel').style.display = 'none';
+            document.querySelectorAll('.glyph').forEach(g => g.classList.remove('active'));
+        }
+
+        // Add click event listeners
+        document.querySelectorAll('.glyph').forEach(glyph => {
+            glyph.addEventListener('click', function() {
+                const info = this.getAttribute('data-info');
+                showInfo(info);
+            });
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInfo();
+            }
+        });
+
+        // Close on background click
+        document.getElementById('info-panel').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInfo();
+            }
+        });
+
+        // Initialize
+        createStars();
+    </script>
+</body>
+</html>
